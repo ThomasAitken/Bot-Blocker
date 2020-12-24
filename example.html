@@ -1,0 +1,16 @@
+<script src="https://cdn.jsdelivr.net/npm/ua-parser-js@0/dist/ua-parser.min.js"></script>
+<script type="text/javascript" src="{{ filename='js/fpCollect.js' }}"></script>
+<script type="text/javascript" src="{{ filename='js/fpEvaluate.js' }}"></script>
+<script>
+  (async function botBlock() {
+    const fingerprint = await fpCollect.generateFingerprint();
+    // console.log(fingerprint);
+    // console.log(isBot(fingerprint, "verbose"));
+    if (isBot(fingerprint)) {
+        window.location.replace("{{ FAIL URL }}");
+    }
+    else {
+        window.location.replace("{{ GEN_SESSION_ROUTE, data=[ request_str ] }}");
+    }
+  })();
+</script>
