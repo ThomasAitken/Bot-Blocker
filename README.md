@@ -6,17 +6,22 @@ I decided to start this project upon noticing that most of the open-source proje
 
 This project is most influenced by the following two repos, by the same author: https://github.com/antoinevastel/fp-collect and https://github.com/antoinevastel/fpscanner. My fpCollect.js file has only minor modifications from the homonymous file in the first of these, although my fpEvaluate.js file is significantly different from Vastel's fpScanner. I have dramatically simplified the overall structure (with an eye for creating a fast and efficient practical tool), removed some browser tests which seem outdated or are otherwise less solid, and added several large browser tests based on insights from here (https://github.com/LukasDrgon/fingerprintjs2/blob/master/fingerprint2.js) and here (https://github.com/paulirish/headless-cat-n-mouse). 
 
-I am early in the testing phase. I need to do more rigorous testing to eliminate false positives (i.e. identifying clients as bots who are using their browser legitimately), but the good news is that I have determined that my evaluation procedure **can identify Puppeteer clients using the latest version of this (https://www.npmjs.com/package/puppeteer-extra-plugin-stealth), with all evasions enabled**. The bad news is that I know how to improve the Stealth plugin to get around my evaluation, so I need to think of a new strategy without this vulnerability.
+I am early in the testing phase. I need to do more rigorous testing to eliminate false positives (i.e. identifying clients as bots who are using their browser legitimately), but the good news is that I have determined that my evaluation procedure **can identify Puppeteer clients using the latest version of this (https://www.npmjs.com/package/puppeteer-extra-plugin-stealth), with all evasions enabled**. The bad news is that I know how to improve the Stealth plugin to get around my evaluation... At the same time, there are subtler statistical clues that could be used in fingerprinting which would be much harder to get around through the kinds of techniques used by that plugin. That will be a future direction for development.
 
 ### Basic Usage
-In the very near future, I'm going to publish this library to NPM and CDN, but for now you'll have to download the two files to use them. The `example.html` file shows a basic example.
+#### Download Files
+ See `example.html` for basic usage with files downloaded.
 
+#### NPM & CDN
+On NPM here: https://www.npmjs.com/package/bot-blocker. Access files statically here (https://unpkg.com/bot-blocker@1.0.0/fpEvaluate.js) & here (https://unpkg.com/bot-blocker@1.0.0/fpCollect.js). 
+
+#### Strategic Advice
 In the project I'm currently working on, I'm using this tool in the context of the following strategy:
 
 ````
 upon first request made by unexamined or expired client:
      set client_examined = True somehow (via session or whatever)
-     interrupt request & instead serve response similar to example.html ['request_str' parameter stores the intended url]
+     interrupt request & instead serve response similar to example.html ['request_str' parameter stores the intended url, encoded in a hash which uses dynamic info]
      if not bot, then retrieve intended url while processing request to GEN_SESSION_ROUTE and redirect to the destination of the initial request
 ````
      
