@@ -86,7 +86,7 @@ function isBot(fingerprint, mode="") {
 
     const BROWSER_REF = uaParsed.browser.name;
     const OS_REF = uaParsed.os.name;
-    const BROWSER_VERSION_REF = uaParsed.browser.major;
+    const BROWSER_VERSION = parseFloat(uaParsed.browser.version);
     const DEVICE_TYPE_REF = uaParsed.device.type;
     const BROWSERS = {
       CHROME: 'Chrome',
@@ -109,7 +109,7 @@ function isBot(fingerprint, mode="") {
     if (/HeadlessChrome/.test(fingerprint.userAgent)) {
         return modaliseOutput(mode, "puppeteer1");
     }
-    if (/Chrome/.test(fingerprint.userAgent)) {
+    if (/Chrome/.test(fingerprint.userAgent) && BROWSER_VERSION < 80) {
         if (fingerprint.webDriver) {
             return modaliseOutput(mode, "puppeteer2");
         }
@@ -142,11 +142,11 @@ function isBot(fingerprint, mode="") {
         return modaliseOutput(mode, "selenium");
     }
     // If deviceMemory != 0 and not recent Chrome or Opera
-    if (fingerprint.deviceMemory !== 0 && !(BROWSER_REF === BROWSERS.CHROME && BROWSER_VERSION_REF >= 63) && !(/Opera/.test(BROWSER_REF) && BROWSER_VERSION_REF >= 50)) {
+    if (fingerprint.deviceMemory !== 0 && !(BROWSER_REF === BROWSERS.CHROME && BROWSER_VERSION >= 63) && !(/Opera/.test(BROWSER_REF) && BROWSER_VERSION >= 50)) {
         return modaliseOutput(mode, "deviceMemory1");
     }
     // If deviceMemory = 0 and recent Chrome or Opera
-    if (fingerprint.deviceMemory === 0 && ((BROWSER_REF === BROWSERS.CHROME && BROWSER_VERSION_REF >= 63) || (/Opera/.test(BROWSER_REF) && BROWSER_VERSION_REF >= 50))) {
+    if (fingerprint.deviceMemory === 0 && ((BROWSER_REF === BROWSERS.CHROME && BROWSER_VERSION >= 63) || (/Opera/.test(BROWSER_REF) && BROWSER_VERSION >= 50))) {
         return modaliseOutput(mode, "deviceMemory2");
     }
     if (fingerprint.sequentum) {
@@ -158,33 +158,6 @@ function isBot(fingerprint, mode="") {
     if (checkUABrowser(fingerprint, BROWSER_REF).some((val) => { return val; })) {
       return modaliseOutput(mode, "naughtyBrowser");
     }
+
     return false;
 }
-       
-// addTestResult(() => {
-//     let testResult = /Chrome/.test(fingerprint.userAgent) &&
-//     fingerprint.plugins.length === 0 ? UNSURE : CONSISTENT;
-//     return analysisResult(TESTS.HEADCHR_PLUGINS, testResult, {plugins: fingerprint.plugins});
-// });
-
-// addTestResult(() => {
-//     let testResult = /Chrome/.test(fingerprint.userAgent) &&
-//     fingerprint.debugTool ? UNSURE : CONSISTENT;
-//     return analysisResult(TESTS.CHR_DEBUG_TOOLS, testResult, {});
-// });
-
-// addTestResult(() => {
-//     let testResult = fingerprint.tpCanvas !== 'error' &&
-//     fingerprint.tpCanvas[0] === 0 &&
-//     fingerprint.tpCanvas[1] === 0 &&
-//     fingerprint.tpCanvas[2] === 0 &&
-//     fingerprint.tpCanvas[3] === 0 ? CONSISTENT : UNSURE;
-//     return analysisResult(TESTS.TRANSPARENT_PIXEL, testResult, fingerprint.tpCanvas);
-// });
-
-// TODO: do more tests on Windows and Mac OS to change UNSURE to INCONSISTENT
-// addTestResult(() => {
-//     let testResult = (BROWSER_REF === BROWSERS.CHROME || BROWSER_REF === BROWSERS.CHROMIUM) &&
-//     fingerprint.videoCodecs.h264 !== 'probably' ? UNSURE : CONSISTENT;
-//     return analysisResult(TESTS.VIDEO_CODECS, testResult, {h264: fingerprint.videoCodecs.h264});
-// });
