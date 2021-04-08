@@ -1,0 +1,25 @@
+{
+  "name": "bot-blocker",
+  "version": "1.1.1",
+  "description": "uses fingerprinting to stop bots in their tracks",
+  "main": "fpCollect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasAitken/Bot-Blocker.git"
+  },
+  "keywords": [
+    "fingerprinting",
+    "bot-detection",
+    "bots",
+    "fingerprint"
+  ],
+  "author": "Thomas Aitken",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasAitken/Bot-Blocker/issues"
+  },
+  "homepage": "https://github.com/ThomasAitken/Bot-Blocker#readme"
+}
