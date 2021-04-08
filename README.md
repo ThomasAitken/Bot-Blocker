@@ -13,7 +13,7 @@ I am early in the testing phase. I need to do more rigorous testing to eliminate
  See `example.html` for basic usage with files downloaded.
 
 #### NPM & CDN
-On NPM here: https://www.npmjs.com/package/bot-blocker. Access files statically here (https://unpkg.com/bot-blocker@1.0.0/fpEvaluate.js) & here (https://unpkg.com/bot-blocker@1.0.0/fpCollect.js). 
+On NPM here: https://www.npmjs.com/package/bot-blocker. Access files statically here (https://unpkg.com/bot-blocker@1.1.1/fpEvaluate.js) & here (https://unpkg.com/bot-blocker@1.1.1/fpCollect.js). 
 
 #### Strategic Advice
 In the project I'm currently working on, I'm using this tool in the context of the following strategy:
